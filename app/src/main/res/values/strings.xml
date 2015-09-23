@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BlueControl</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="recycler_view_empty">Nothing</string>
+</resources>
