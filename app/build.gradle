@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.xhin.xdu.bluecontrol"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -30,7 +30,9 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.github.clans:fab:1.5.5'
     compile 'com.malinskiy:superrecyclerview:1.1.1'
+    compile 'com.akexorcist:bluetoothspp:1.0.0'
     compile 'com.nispok:snackbar:2.10.10'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
+    compile 'com.afollestad:material-dialogs:0.7.6.0'
 }

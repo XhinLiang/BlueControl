@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.xhin.xdu.bluecontrol.R;
@@ -27,16 +28,19 @@ import java.util.List;
 public class BlueMessageFragment extends BaseFragment {
 
     protected SuperRecyclerView recyclerView;
-    protected FloatingActionButton fabS, fabX, fabK, fabG;
+    protected FloatingActionButton fabS, fabX, fabK, fabG, fabCustom;
     protected AbstractAdapter<BluetoothMessage> recyclerAdapter;
     protected LoadToast loadToast;
     protected View fragmentView;
+
+    private Event event;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.full_recycler_view_layout, container, false);
+        event = (Event) getActivity();
         initRecyclerView();
         initEvent();
         return fragmentView;
@@ -46,25 +50,47 @@ public class BlueMessageFragment extends BaseFragment {
         fabS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerAdapter.add(new BluetoothMessage(22,"wssdfsdf"));
+                event.sendMessage("s");
             }
         });
+
         fabX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                event.sendMessage("x");
             }
         });
+
         fabK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                event.sendMessage("k");
             }
         });
+
         fabG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                event.sendMessage("g");
+            }
+        });
 
+        fabCustom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context).title("Send").input(R.string.custom_text, R.string.nothing, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                    }
+                }).positiveText("Confirm").callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        if (dialog.getInputEditText() != null) {
+                            String custom = dialog.getInputEditText().getText().toString();
+                            event.sendMessage(custom);
+                        }
+                    }
+                }).show();
             }
         });
     }
@@ -79,6 +105,7 @@ public class BlueMessageFragment extends BaseFragment {
         fabX = (FloatingActionButton) fragmentView.findViewById(R.id.fab_x);
         fabK = (FloatingActionButton) fragmentView.findViewById(R.id.fab_k);
         fabG = (FloatingActionButton) fragmentView.findViewById(R.id.fab_g);
+        fabCustom = (FloatingActionButton) fragmentView.findViewById(R.id.fab_custom);
         loadToast = new LoadToast(context);
         List<BluetoothMessage> dataSet = new LinkedList<>();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -88,6 +115,20 @@ public class BlueMessageFragment extends BaseFragment {
         recyclerAdapter.setFirstOnly(false);
         recyclerAdapter.setDuration(300);
         recyclerView.setAdapter(recyclerAdapter);
+    }
+
+    public void onNewMessage(String message) {
+        recyclerAdapter.add(new BluetoothMessage(0, message));
+    }
+
+    public void setConnectStatus(String status) {
+        event.setTitle(status);
+    }
+
+    public interface Event {
+        void sendMessage(String custom);
+
+        void setTitle(String title);
     }
 
 }

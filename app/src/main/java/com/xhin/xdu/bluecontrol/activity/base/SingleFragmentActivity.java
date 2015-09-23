@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 import com.xhin.xdu.bluecontrol.R;
 
 import java.lang.reflect.Field;
@@ -70,6 +72,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+    public void showMassage(String massage) {
+        SnackbarManager.show(
+                Snackbar.with(getApplicationContext())
+                        .text(massage).swipeToDismiss(true).duration(500), SingleFragmentActivity.this);
     }
 
     private void findViews() {
