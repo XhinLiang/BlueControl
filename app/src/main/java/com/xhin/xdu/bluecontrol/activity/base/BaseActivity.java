@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.ViewConfiguration;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.xhin.xdu.bluecontrol.R;
 import com.xhin.xdu.bluecontrol.application.ManagerApplication;
-
-import java.lang.reflect.Field;
 
 import de.greenrobot.event.EventBus;
 
@@ -37,20 +34,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         EventBus.getDefault().register(this);
         context = this;
-        try {
-            ViewConfiguration mConfig = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            menuKeyField.setAccessible(true);
-            menuKeyField.setBoolean(mConfig, false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ManagerApplication.getInstance().removeActivity(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -69,6 +59,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Snackbar.with(getApplicationContext())
                         .text(massage).swipeToDismiss(true).duration(500), BaseActivity.this);
     }
+
+    @Override
+    public void setTitle(CharSequence title){
+        if (getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(title);
+    }
+
 
     @SuppressWarnings("unused")
     public void onEventMainThread(String event) {

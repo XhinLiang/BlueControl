@@ -24,9 +24,6 @@
             android:name=".activity.DeviceListActivity"
             android:theme="@style/AppTheme" />
 
-        <activity android:name=".activity.TerminalActivity">
-
-        </activity>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import java.util.List;
  * 用于全局变量的储存和全局Activities的管理
  */
 public class ManagerApplication extends Application {
+
     public final static String TAG = "ManagerApplication";
 
     //为了实现每次使用该类时不创建新的对象而创建的静态对象

@@ -6,7 +6,7 @@
         android:id="@+id/menu_device_connect"
         android:icon="@drawable/ic_menu_connect"
         android:orderInCategory="100"
-        android:title="Connect with any device"
+        android:title="@string/connect"
         app:showAsAction="always" />
 
 </menu>

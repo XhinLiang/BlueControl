@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.ViewConfiguration;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.xhin.xdu.bluecontrol.R;
 import com.xhin.xdu.bluecontrol.application.ManagerApplication;
-
-import java.lang.reflect.Field;
 
 import de.greenrobot.event.EventBus;
 
@@ -34,6 +31,7 @@ public abstract class ToolBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ManagerApplication.getInstance().addActivity(this);
+        EventBus.getDefault().register(this);
         setContentView(setContentViewID());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,22 +40,15 @@ public abstract class ToolBarActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
-        EventBus.getDefault().register(this);
         context = this;
-        try {
-            ViewConfiguration mconfig = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            menuKeyField.setAccessible(true);
-            menuKeyField.setBoolean(mconfig, false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ManagerApplication.getInstance().removeActivity(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

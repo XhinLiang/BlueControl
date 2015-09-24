@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.ViewConfiguration;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.xhin.xdu.bluecontrol.R;
+import com.xhin.xdu.bluecontrol.application.ManagerApplication;
 
-import java.lang.reflect.Field;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by xhinliang on 15-8-30.
@@ -31,14 +31,16 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         return R.layout.activity_toolbar;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ManagerApplication.getInstance().addActivity(this);
+        EventBus.getDefault().register(this);
         setContentView(getLayoutResId());
-        findViews(); //获取控件
-        toolbar.setTitle(Title() == null ? getString(R.string.app_name) : Title());//设置Toolbar标题
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));//设置标题颜色
+        //获取控件
+        findViews();
+        //设置Toolbar标题
+        toolbar.setTitle(Title() == null ? getString(R.string.app_name) : Title());
         setSupportActionBar(toolbar);
         if (null != getSupportActionBar()) {
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -51,14 +53,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
             manager.beginTransaction()
                     .add(R.id.fragment_main, fragment)
                     .commit();
-        }
-        try {
-            ViewConfiguration mConfig = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            menuKeyField.setAccessible(true);
-            menuKeyField.setBoolean(mConfig, false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -73,6 +67,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ManagerApplication.getInstance().removeActivity(this);
+        EventBus.getDefault().unregister(this);
+    }
     public void showMassage(String massage) {
         SnackbarManager.show(
                 Snackbar.with(getApplicationContext())
@@ -81,5 +82,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(String event) {
+        showMassage(event);
     }
 }
