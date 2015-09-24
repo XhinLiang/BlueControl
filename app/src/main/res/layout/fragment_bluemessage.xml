@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -23,14 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        fab:menu_colorNormal="@color/light_grey"
-        fab:menu_icon="@drawable/fab_more">
+        android:scaleType="centerInside"
+        app:menu_icon="@drawable/ic_fab_more"
+        fab:menu_colorNormal="@color/light_grey">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_login"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_fab_up"
             fab:fab_colorNormal="@color/light_grey"
             fab:fab_label="@string/up"
             fab:fab_size="mini" />
@@ -39,7 +40,8 @@
             android:id="@+id/fab_x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_login"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_fab_down"
             fab:fab_colorNormal="@color/light_grey"
             fab:fab_label="@string/down"
             fab:fab_size="mini" />
@@ -48,7 +50,8 @@
             android:id="@+id/fab_k"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_login"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_fab_lock"
             fab:fab_colorNormal="@color/light_grey"
             fab:fab_label="@string/lock"
             fab:fab_size="mini" />
@@ -57,15 +60,18 @@
             android:id="@+id/fab_g"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_login"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_fab_unlock"
             fab:fab_colorNormal="@color/light_grey"
             fab:fab_label="@string/unlock"
             fab:fab_size="mini" />
+
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_login"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_fab_setting"
             fab:fab_colorNormal="@color/light_grey"
             fab:fab_label="@string/setting"
             fab:fab_size="mini" />
