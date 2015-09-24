@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="app.akexorcist.bluetotohspp.library.DeviceList" />
+        <activity
+            android:name=".activity.DeviceListActivity"
+            android:theme="@style/AppTheme" />
 
         <activity android:name=".activity.TerminalActivity">
 

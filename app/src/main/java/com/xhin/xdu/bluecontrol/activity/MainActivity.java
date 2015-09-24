@@ -11,11 +11,10 @@ import android.widget.Toast;
 
 import com.xhin.xdu.bluecontrol.R;
 import com.xhin.xdu.bluecontrol.activity.base.SingleFragmentActivity;
-import com.xhin.xdu.bluecontrol.bean.BlueMessageFragment;
+import com.xhin.xdu.bluecontrol.fragment.BlueMessageFragment;
 
 import app.akexorcist.bluetotohspp.library.BluetoothSPP;
 import app.akexorcist.bluetotohspp.library.BluetoothState;
-import app.akexorcist.bluetotohspp.library.DeviceList;
 
 public class MainActivity extends SingleFragmentActivity implements BlueMessageFragment.Event {
     BluetoothSPP bt;
@@ -79,19 +78,12 @@ public class MainActivity extends SingleFragmentActivity implements BlueMessageF
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_android_connect) {
-            bt.setDeviceTarget(BluetoothState.DEVICE_ANDROID);
-            /*
-            if(bt.getServiceState() == BluetoothState.STATE_CONNECTED)
-    			bt.disconnect();*/
-            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
-            startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
-        } else if (id == R.id.menu_device_connect) {
+        if (id == R.id.menu_device_connect) {
             bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
             /*
             if(bt.getServiceState() == BluetoothState.STATE_CONNECTED)
     			bt.disconnect();*/
-            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+            Intent intent = new Intent(this, DeviceListActivity.class);
             startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
         } else if (id == R.id.menu_disconnect) {
             if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)

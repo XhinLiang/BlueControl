@@ -1,4 +1,4 @@
-package com.xhin.xdu.bluecontrol.bean;
+package com.xhin.xdu.bluecontrol.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.xhin.xdu.bluecontrol.R;
 import com.xhin.xdu.bluecontrol.adapter.BlueMessageAdapter;
 import com.xhin.xdu.bluecontrol.adapter.base.AbstractAdapter;
+import com.xhin.xdu.bluecontrol.bean.BluetoothMessage;
 import com.xhin.xdu.bluecontrol.fragment.base.BaseFragment;
 
 import net.steamcrafted.loadtoast.LoadToast;
@@ -28,7 +29,7 @@ import java.util.List;
 public class BlueMessageFragment extends BaseFragment {
 
     protected SuperRecyclerView recyclerView;
-    protected FloatingActionButton fabS, fabX, fabK, fabG, fabCustom;
+    protected FloatingActionButton fabS, fabX, fabK, fabG, fabH;
     protected AbstractAdapter<BluetoothMessage> recyclerAdapter;
     protected LoadToast loadToast;
     protected View fragmentView;
@@ -39,7 +40,7 @@ public class BlueMessageFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.full_recycler_view_layout, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_bluemessage, container, false);
         event = (Event) getActivity();
         initRecyclerView();
         initEvent();
@@ -75,22 +76,10 @@ public class BlueMessageFragment extends BaseFragment {
             }
         });
 
-        fabCustom.setOnClickListener(new View.OnClickListener() {
+        fabH.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MaterialDialog.Builder(context).title("Send").input(R.string.custom_text, R.string.nothing, new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                    }
-                }).positiveText("Confirm").callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        if (dialog.getInputEditText() != null) {
-                            String custom = dialog.getInputEditText().getText().toString();
-                            event.sendMessage(custom);
-                        }
-                    }
-                }).show();
+                event.sendMessage("h");
             }
         });
     }
@@ -105,7 +94,7 @@ public class BlueMessageFragment extends BaseFragment {
         fabX = (FloatingActionButton) fragmentView.findViewById(R.id.fab_x);
         fabK = (FloatingActionButton) fragmentView.findViewById(R.id.fab_k);
         fabG = (FloatingActionButton) fragmentView.findViewById(R.id.fab_g);
-        fabCustom = (FloatingActionButton) fragmentView.findViewById(R.id.fab_custom);
+        fabH = (FloatingActionButton) fragmentView.findViewById(R.id.fab_h);
         loadToast = new LoadToast(context);
         List<BluetoothMessage> dataSet = new LinkedList<>();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -118,7 +107,25 @@ public class BlueMessageFragment extends BaseFragment {
     }
 
     public void onNewMessage(String message) {
+
         recyclerAdapter.add(new BluetoothMessage(0, message));
+
+        //如果回送的是h则弹出对话框输入手机号码
+        if (message.equals("h")) {
+            new MaterialDialog.Builder(context).title("Send").input(R.string.custom_text, R.string.nothing, new MaterialDialog.InputCallback() {
+                @Override
+                public void onInput(MaterialDialog dialog, CharSequence input) {
+                }
+            }).positiveText("Confirm").callback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog dialog) {
+                    if (dialog.getInputEditText() != null) {
+                        String custom = dialog.getInputEditText().getText().toString();
+                        event.sendMessage(custom);
+                    }
+                }
+            }).show();
+        }
     }
 
     public void setConnectStatus(String status) {

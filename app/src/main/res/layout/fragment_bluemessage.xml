@@ -61,8 +61,9 @@
             fab:fab_colorNormal="@color/light_grey"
             fab:fab_label="@string/issue"
             fab:fab_size="mini" />
+
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_custom"
+            android:id="@+id/fab_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"
